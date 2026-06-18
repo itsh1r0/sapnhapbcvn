@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Juxtapose - Optimized Embed</title>
+    <link rel="stylesheet" href="./juxta.css">
+    <style>
+        html, body, #slider-container {
+            margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #ffffff;
+        }
+        .juxtapose { width: 100%; height: 100%; }
+    </style>
+</head>
+<body>
+
+    <div id="slider-container"></div>
+
+    <script src="./juxta.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            new juxtapose.JXSlider('#slider-container', [
+                { src: './before.webp', label: 'Truớc' }, //
+                { src: './after.webp', label: 'Sau' }     //
+            ], {
+                animate: true,
+                showLabels: true,
+                showCredits: false,
+                startingPosition: "50%",
+                makeResponsive: true //
+            });
+        });
+    </script>
+</body>
+</html>
