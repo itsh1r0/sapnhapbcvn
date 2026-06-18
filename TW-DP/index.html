@@ -290,18 +290,18 @@
             const tooltip = document.getElementById('tooltip');
 
             function showTooltip(e, label, yearLabel, val, dec, decPercent) {
-    let html = `
-        <h3>${label}</h3>
-        <p><strong>Thời điểm:</strong> ${yearLabel}</p>
-        <p><strong>Số lượng:</strong> ${val}</p>
-    `;
-    if (yearLabel.includes('2025') && dec && decPercent) {
-        html += `<p><strong>Giảm:</strong> ${dec} cơ quan, (${decPercent})</p>`;
-    }
-    tooltip.innerHTML = html;
-    tooltip.style.opacity = 1;
-    moveTooltip(e);
-}
+                let html = `
+                <h3>${label}</h3>
+                <p><strong>Thời điểm:</strong> ${yearLabel}</p>
+                <p><strong>Số lượng:</strong> ${val}</p>
+                `;
+                if (yearLabel.includes('2025') && dec && decPercent) {
+                    html += `<p><strong>Giảm:</strong> ${dec} cơ quan, (${decPercent})</p>`;
+                }
+                tooltip.innerHTML = html;
+                tooltip.style.opacity = 1;
+                moveTooltip(e);
+            }
 
             function moveTooltip(e) {
                 tooltip.style.left = (e.clientX + 15) + 'px';
