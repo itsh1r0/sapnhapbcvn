@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biểu đồ Cơ quan Báo chí</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+      body {
+        background-color: transparent;
+        color: #000000;
+        font-family: 'Quicksand', sans-serif;
+        font-weight: 700;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      body.is-hovering .bar-segment:not(.is-active),
+      body.is-hovering .legend-item:not(.is-active),
+      body.is-hovering .grid,
+      body.is-hovering .bar-label,
+      body.is-hovering .total-label {
+        opacity: 0.3;
+        transition: opacity 0.3s ease;
+      }
+
+      .chart-container {
+        width: 100vw;
+        height: 100vh;
+        padding: 40px;
+        box-sizing: border-box;
+        display: flex;
+      }
+
+      .chart-box {
+        padding: 60px 80px 80px 80px;
+        background-color: transparent;
+        border-radius: 4px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+      }
+
+      .legend {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-bottom: 50px;
+        position: relative;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 30px;
+        font-weight: 700;
+        font-family: 'Quicksand', sans-serif;
+        position: relative;
+      }
+
+      .legend-item.is-active {
+        z-index: 11;
+      }
+
+      .legend-color {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+      }
+
+      .chart-content {
+        margin-left: 100px;
+        position: relative;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .grid {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .grid-line {
+        position: absolute;
+        width: 1px;
+        height: 100%;
+        background-color: #333;
+      }
+
+      .grid-label {
+        position: absolute;
+        bottom: -40px;
+        transform: translateX(-50%);
+        font-size: 18px;
+        color: #3a3a3a;
+      }
+
+      .bars {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+      }
+
+      .bar-row {
+        display: flex;
+        align-items: center;
+        height: 30%;
+        width: 100%;
+        position: relative;
+      }
+
+      .bar-label {
+        position: absolute;
+        left: -90px;
+        width: 70px;
+        text-align: right;
+        font-size: 26px;
+        font-weight: 700;
+        font-family: 'Quicksand', sans-serif;
+      }
+
+      .bar-wrapper {
+        display: flex;
+        width: 100%;
+        height: 100%;
+      }
+
+      .bar-segment {
+        height: 100%;
+        transition: opacity 0.2s, filter 0.2s;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .bar-segment.is-active {
+        z-index: 11;
+      }
+
+      .total-label {
+        display: flex;
+        align-items: center;
+        margin-left: 15px;
+        font-size: 26px;
+        font-weight: 700;
+        font-family: 'Quicksand', sans-serif;
+        color: #ffffff;
+      }
+
+      .tooltip {
+        position: fixed;
+        background-color: #000000;
+        color: #ffffff;
+        padding: 16px;
+        border-radius: 8px;
+        border: 1px solid #333333;
+        font-size: 16px;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s;
+        z-index: 100;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.7);
+      }
+
+      .tooltip h3 {
+        margin: 0 0 12px 0;
+        font-size: 20px;
+        border-bottom: 1px solid #333333;
+        padding-bottom: 8px;
+        color: #ffffff;
+      }
+
+      .tooltip p {
+        margin: 6px 0;
+        color: #cccccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="overlay" class="overlay"></div>
+    <div class="chart-container">
+      <div class="chart-box">
+        <div class="legend" id="legend"></div>
+        <div class="chart-content">
+          <div class="grid" id="grid"></div>
+          <div class="bars" id="bars"></div>
+        </div>
+      </div>
+    </div>
+    <div id="tooltip" class="tooltip"></div>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const labels = ["Trung Ương", "Địa phương"];
+        const years = [{
+          label: "2024",
+          values: [8, 64]
+        }, {
+          label: "2025",
+          values: [4, 34]
+        }];
+        const decrease = ["4", "30"];
+        const decreasePercent = ["50,00%", "46,88%"];
+        renderChart(labels, years, decrease, decreasePercent);
+      });
+
+      function renderChart(labels, years, decrease, decreasePercent) {
+        const colors = ['#38bdf8', '#a855f7', '#6b21a8'];
+        const legendEl = document.getElementById('legend');
+        labels.forEach((label, index) => {
+          const legendItem = document.createElement('div');
+          legendItem.className = 'legend-item';
+          legendItem.id = `legend-item-${index}`;
+          legendItem.innerHTML = `
+								<div class="legend-color" style="background-color: ${colors[index]}"></div>
+								<span>${label}</span>`;
+          legendEl.appendChild(legendItem);
+        });
+        const maxScale = 100;
+        const gridEl = document.getElementById('grid');
+        for (let i = 0; i <= maxScale; i += 20) {
+          const gridLine = document.createElement('div');
+          gridLine.className = 'grid-line';
+          gridLine.style.left = `${(i / maxScale) * 100}%`;
+          const gridLabel = document.createElement('div');
+          gridLabel.className = 'grid-label';
+          gridLabel.innerText = i;
+          gridLine.appendChild(gridLabel);
+          gridEl.appendChild(gridLine);
+        }
+        const barsEl = document.getElementById('bars');
+        years.forEach((yearData) => {
+          const barRow = document.createElement('div');
+          barRow.className = 'bar-row';
+          const barLabel = document.createElement('div');
+          barLabel.className = 'bar-label';
+          const yearMatch = yearData.label.match(/\\d{4}/);
+          barLabel.innerText = yearMatch ? yearMatch[0] : yearData.label;
+          barRow.appendChild(barLabel);
+          const barWrapper = document.createElement('div');
+          barWrapper.className = 'bar-wrapper';
+          let totalVal = 0;
+          yearData.values.forEach(v => totalVal += v);
+          yearData.values.forEach((val, index) => {
+            const widthPercent = (val / maxScale) * 100;
+            if (widthPercent > 0) {
+              const segment = document.createElement('div');
+              segment.className = 'bar-segment';
+              segment.style.width = `${widthPercent}%`;
+              segment.style.backgroundColor = colors[index];
+              if (index === yearData.values.length - 1) {
+                segment.style.borderTopRightRadius = '24px';
+                segment.style.borderBottomRightRadius = '24px';
+              }
+              segment.addEventListener('mouseenter', (e) => {
+                document.body.classList.add('is-hovering');
+                segment.classList.add('is-active');
+                document.getElementById(`legend-item-${index}`).classList.add('is-active');
+                showTooltip(e, labels[index], yearData.label, val, decrease[index], decreasePercent[index]);
+              });
+              segment.addEventListener('mousemove', moveTooltip);
+              segment.addEventListener('mouseleave', () => {
+                document.body.classList.remove('is-hovering');
+                segment.classList.remove('is-active');
+                document.getElementById(`legend-item-${index}`).classList.remove('is-active');
+                hideTooltip();
+              });
+              barWrapper.appendChild(segment);
+            }
+          });
+          const totalLabel = document.createElement('div');
+          totalLabel.className = 'total-label';
+          totalLabel.innerText = totalVal;
+          barWrapper.appendChild(totalLabel);
+          barRow.appendChild(barWrapper);
+          barsEl.appendChild(barRow);
+        });
+      }
+      const tooltip = document.getElementById('tooltip');
+
+      function showTooltip(e, label, yearLabel, val, dec, decPercent) {
+        let html = `
+        
+								<h3>${label}</h3>
+								<p>
+									<strong>Thời điểm:</strong> ${yearLabel}
+								</p>
+								<p>
+									<strong>Số lượng:</strong> ${val}
+								</p>
+    `;
+        if (yearLabel.includes('2025') && dec && decPercent) {
+          html += `
+								<p>
+									<strong>Giảm:</strong> ${dec} cơ quan, (${decPercent})
+								</p>`;
+        }
+        tooltip.innerHTML = html;
+        tooltip.style.opacity = 1;
+        moveTooltip(e);
+      }
+
+      function moveTooltip(e) {
+        tooltip.style.left = (e.clientX + 15) + 'px';
+        tooltip.style.top = (e.clientY + 15) + 'px';
+      }
+
+      function hideTooltip() {
+        tooltip.style.opacity = 0;
+      }
+    </script>
+  </body>
+</html>
