@@ -39,7 +39,7 @@ var APP_DATA = {
           "pitch": -0.7387728414740664,
           "title": "Báo và Phát thanh Truyền hình Tuyên Quang",
           "text": "Cơ quan báo chí, truyền thông chủ lực của tỉnh; nơi truyền tải kịp thời, chính thống mọi thông tin thời sự, chính trị, kinh tế và văn hóa của địa phương.",
-          "click": "sub-info/01_1.html"
+          "click": "./sub-info/01_1.html"
         }
       ]
     },
@@ -92,7 +92,7 @@ var APP_DATA = {
           "pitch": -0.2017241287546876,
           "title": "Phòng Kỹ thuật trường quay",
           "text": "Nơi vận hành toàn bộ hệ thống âm thanh, ánh sáng, kỹ thuật hình ảnh và điều khiển sóng. Đây là \"đầu não\" đảm bảo mỗi khung hình, phát ngôn được truyền tải đến khán giả một cách hoàn hảo, chuẩn xác nhất.",
-          "click": "sub-info/02_1.html"
+          "click": "./sub-info/02_1.html"
         }
       ]
     },
@@ -142,7 +142,7 @@ var APP_DATA = {
           "pitch": 0.25638299442873524,
           "title": "Trường quay 03",
           "text": "Không gian ghi hình hiện đại, đa năng, chuyên dụng cho các chương trình thời sự, tọa đàm và chuyên mục chuyên sâu của Đài. Nơi ghi dấu sự chuyên nghiệp và kết nối trực quan giữa phát thanh viên với khán giả.",
-          "click": "sub-info/03_1.html"
+          "click": "./sub-info/03_1.html"
         }
       ]
     },
@@ -185,7 +185,7 @@ var APP_DATA = {
           "pitch": -0.15927574963118296,
           "title": "Phòng Kỹ thuật sản xuất Chương trình truyền hình",
           "text": "Không gian hậu kỳ sáng tạo – nơi các kỹ thuật viên và biên tập viên thực hiện kỹ xảo, dựng phim, và trau chuốt âm thanh để biến những thước phim thô thành các sản phẩm truyền hình hoàn chỉnh, hấp dẫn.",
-          "click": "sub-info/04_1.html"
+          "click": "./sub-info/04_1.html"
         }
       ]
     },
