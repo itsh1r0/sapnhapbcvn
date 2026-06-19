@@ -35,7 +35,7 @@ var APP_DATA = {
       "linkHotspots": [],
       "infoHotspots": [
         {
-          "yaw": -0.7959617616644685,
+          "yaw": -0.8459617616644685,
           "pitch": -0.2427769490684053,
           "title": "Báo và Phát thanh Truyền hình Tuyên Quang",
           "text": "Cơ quan báo chí, truyền thông chủ lực của tỉnh; nơi truyền tải kịp thời, chính thống mọi thông tin thời sự, chính trị, kinh tế và văn hóa của địa phương.",
