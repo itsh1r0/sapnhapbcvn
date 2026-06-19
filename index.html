@@ -23,11 +23,19 @@
 </head>
 <body>
     <div class="canvas-container" id="container">
-        <!-- <iframe id="hijack-iframe" src="https://sapnhapbcvn.wixstudio.com/bao-chi-du-lieu?rc=test-site" fetchpriority="high" allow="fullscreen" allowfullscreen></iframe> -->
         <iframe id="hijack-iframe" fetchpriority="high" allow="fullscreen" allowfullscreen></iframe>
     </div>
     <script>
-        document.getElementById('hijack-iframe').src = "https://sapnhapbcvn.wixstudio.com/bao-chi-du-lieu?rc=test-site&t=" + Date.now();
+        const targetUrl = "https://sapnhapbcvn.wixstudio.com/bao-chi-du-lieu?rc=test-site&t=" + Date.now();
+
+        const isStandardiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent || navigator.platform);
+        const isNewiPad = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+
+        if (isStandardiOS || isNewiPad) {
+            window.top.location.replace(targetUrl);
+        } else {
+            document.getElementById('hijack-iframe').src = targetUrl;
+        }
     </script>
     <script href="script.js" src="script.js"></script>
 </body>
