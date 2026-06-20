@@ -6,9 +6,8 @@
 </head>
 <body>
     <script>
-        const isStandardiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent || navigator.platform);
-        const isNewiPad = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
-        if (isStandardiOS || isNewiPad) {
+        const isMobileDevice = /Mobi|Android|iPhone|iPod/i.test(navigator.userAgent || navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        if (isMobileDevice) {
             window.location.replace("./failsave.html");
         } else {
             window.location.replace("./index.html");
